@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class Users extends Component
 {
@@ -84,7 +85,7 @@ class Users extends Component
     {
         $user = User::findOrFail($userId);
 
-        if ($user->id === auth()->id()) {
+        if ($user->id === Auth::id()) {
             session()->flash('error', 'Tidak bisa menghapus akun sendiri!');
             return;
         }

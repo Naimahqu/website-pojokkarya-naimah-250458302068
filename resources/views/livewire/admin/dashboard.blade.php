@@ -7,7 +7,8 @@
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-        <!-- Total Users -->
+
+    <!-- totaluser -->
         <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-[#0f3460]">
             <div class="flex items-center justify-between">
                 <div>
@@ -20,7 +21,7 @@
             </div>
         </div>
 
-        <!-- Total Kreasi -->
+        <!-- totalkreasi -->
         <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-green-500">
             <div class="flex items-center justify-between">
                 <div>
@@ -59,5 +60,53 @@
             </div>
         </div>
     </div>
+
+    
+
+  <!-- chart -->
+   <!-- Chart Kreasi 7 Hari Terakhir -->
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-chart-bar text-[#0f3460] mr-2"></i>Kreasi 7 Hari Terakhir
+        </h3>
+        <div class="h-64">
+            <canvas id="kreasiChart"></canvas>
+        </div>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+   <script>
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('kreasiChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @json($chartData['labels']),
+            datasets: [{
+                label: 'Jumlah Kreasi',
+                data: @json($chartData['data']),
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
+    });
+});
+</script>
+  <!-- endchart -->
+
 </div>
 

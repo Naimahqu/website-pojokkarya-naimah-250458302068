@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? 'Dashboard' }} - {{ config('app.name', 'PojokKaarya') }}</title>
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -15,7 +16,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="font-sans antialiased bg-gray-100">
+<body class="font-sans antialiased bg-gray-100">+
     <!-- Navbar -->
     <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,6 +40,10 @@
                         <a href="{{ route('kreasi.index') }}"
                            class="px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('kreasi.index') ? 'bg-gray-100' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fas fa-images mr-2"></i>Kelola Kreasi
+                        </a>
+                        <a href="{{ route('bookmarks') }}"
+                           class="px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('bookmarks') ? 'bg-gray-100' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <i class="fas fa-bookmark mr-2"></i>Bookmarks
                         </a>
                         <a href="{{ route('profile') }}"
                            class="px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('profile') ? 'bg-gray-100' : 'text-gray-600 hover:bg-gray-100' }}">
@@ -80,6 +85,10 @@
                 <a href="{{ route('kreasi.index') }}"
                    class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('kreasi.index') ? 'bg-gray-100' : 'text-gray-600 hover:bg-gray-100' }}">
                     <i class="fas fa-images mr-2"></i>Kelola Kreasi
+                </a>
+                <a href="{{ route('bookmarks') }}"
+                   class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('bookmarks') ? 'bg-gray-100' : 'text-gray-600 hover:bg-gray-100' }}">
+                    <i class="fas fa-bookmark mr-2"></i>Bookmarks
                 </a>
                 <a href="{{ route('profile') }}"
                    class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('profile') ? 'bg-gray-100' : 'text-gray-600 hover:bg-gray-100' }}">

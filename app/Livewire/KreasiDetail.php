@@ -33,7 +33,7 @@ class KreasiDetail extends Component
     //dia tuh buat tombol follow
     public function toggleFollow(): void
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->dispatch('openLoginModal');
             return;
         }
@@ -61,11 +61,11 @@ class KreasiDetail extends Component
 
     public function isFollowing(): bool
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             return false;
         }
 
-        return Follow::where('follower_id', auth()->id())
+        return Follow::where('follower_id', Auth::id())
             ->where('followed_id', $this->kreasi->user_id)
             ->exists();
     }
@@ -87,12 +87,12 @@ class KreasiDetail extends Component
 
     public function toggleLike(): void
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->dispatch('openLoginModal');
             return;
         }
 
-        $like = Like::where('user_id', auth()->id())
+        $like = Like::where('user_id', Auth::id())
             ->where('kreasi_id', $this->kreasi->id)
             ->first();
 
@@ -100,7 +100,7 @@ class KreasiDetail extends Component
             $like->delete();
         } else {
             Like::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'kreasi_id' => $this->kreasi->id,
             ]);
         }
@@ -110,12 +110,12 @@ class KreasiDetail extends Component
 
     public function toggleBookmark(): void
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->dispatch('openLoginModal');
             return;
         }
 
-        $bookmark = Bookmark::where('user_id', auth()->id())
+        $bookmark = Bookmark::where('user_id', Auth::id())
             ->where('kreasi_id', $this->kreasi->id)
             ->first();
 
@@ -123,7 +123,7 @@ class KreasiDetail extends Component
             $bookmark->delete();
         } else {
             Bookmark::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'kreasi_id' => $this->kreasi->id,
             ]);
         }
@@ -133,13 +133,13 @@ class KreasiDetail extends Component
 
     public function setRating(int $rating): void
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->dispatch('openLoginModal');
             return;
         }
 
         Rating::updateOrCreate(
-            ['user_id' => auth()->id(), 'kreasi_id' => $this->kreasi->id],
+            ['user_id' => Auth::id(), 'kreasi_id' => $this->kreasi->id],
             ['rating' => $rating]
         );
 
@@ -149,7 +149,7 @@ class KreasiDetail extends Component
 
     public function addComment(): void
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->dispatch('openLoginModal');
             return;
         }
@@ -157,7 +157,7 @@ class KreasiDetail extends Component
         $this->validate(['komentar' => 'required|min:2|max:500']);
 
         Comment::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'kreasi_id' => $this->kreasi->id,
             'komentar' => $this->komentar,
         ]);
@@ -169,13 +169,16 @@ class KreasiDetail extends Component
     public function deleteComment(int $commentId): void
     {
         $comment = Comment::find($commentId);
-        if ($comment && $comment->user_id === auth()->id()) {
+        if ($comment && $comment->user_id === Auth::id()) {
             $comment->delete();
             $this->kreasi->load('comments.user');
         }
     }
 
+    
+
     public function render()
+    
     {
         return view('livewire.kreasi-detail')
             ->layout('components.layouts.landing', ['title' => $this->kreasi->judul]);

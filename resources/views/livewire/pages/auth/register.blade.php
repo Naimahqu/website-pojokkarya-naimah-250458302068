@@ -45,7 +45,7 @@ new #[Layout('layouts.guest')] class extends Component
     <!-- Header -->
     <div class="bg-gradient-to-r from-primary to-secondary p-6 text-white">
         <h2 class="text-2xl font-bold">Daftar</h2>
-        <p class="text-white/80 mt-2">Bergabung dengan komunitas kreator Indonesia!</p>
+        <p class="text-white/80 mt-2">Bergabung dengan kami!</p>
     </div>
 
     <!-- Form -->

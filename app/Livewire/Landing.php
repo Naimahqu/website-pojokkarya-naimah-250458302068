@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Kreasi;
 use App\Models\Tag;
 use App\Models\Like;
-use App\Models\Bookmark;
+use App\Models\Kreasi;
 use Livewire\Component;
+use App\Models\Bookmark;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class Landing extends Component
 {
@@ -15,7 +16,7 @@ class Landing extends Component
 
     public string $search = '';
     public string $tagFilter = '';
-    public string $sortBy = 'terbaru'; // terbaru, populer
+    public string $sortBy = 'terbaru'; 
 
     public function updatingSearch(): void
     {
@@ -41,12 +42,12 @@ class Landing extends Component
 
     public function toggleLike(int $kreasiId): void
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->dispatch('openLoginModal');
             return;
         }
 
-        $like = Like::where('user_id', auth()->id())
+        $like = Like::where('user_id', Auth::id())
             ->where('kreasi_id', $kreasiId)
             ->first();
 
@@ -54,7 +55,7 @@ class Landing extends Component
             $like->delete();
         } else {
             Like::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'kreasi_id' => $kreasiId,
             ]);
         }
@@ -62,12 +63,12 @@ class Landing extends Component
 
     public function toggleBookmark(int $kreasiId): void
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->dispatch('openLoginModal');
             return;
         }
 
-        $bookmark = Bookmark::where('user_id', auth()->id())
+        $bookmark = Bookmark::where('user_id', Auth::id())
             ->where('kreasi_id', $kreasiId)
             ->first();
 
@@ -75,7 +76,7 @@ class Landing extends Component
             $bookmark->delete();
         } else {
             Bookmark::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'kreasi_id' => $kreasiId,
             ]);
         }

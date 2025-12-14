@@ -1,23 +1,11 @@
-<div>
+<div class="bg-gray-900">
     <!-- Navbar -->
-    <nav class="bg-gradient-to-r from-primary to-secondary sticky top-0 z-50 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <a href="{{ route('landing') }}" class="text-2xl font-bold text-white">🎨 PojokKaarya</a>
-                <div class="flex items-center space-x-4">
-                    @auth
-                        <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}" class="text-white hover:text-gray-300">Dashboard</a>
-                    @else
-                        <button onclick="Livewire.dispatch('openLoginModal')" class="text-white hover:text-gray-300">Masuk</button>
-                        <button onclick="Livewire.dispatch('openRegisterModal')" class="bg-accent text-white px-4 py-2 rounded-full hover:bg-blue-700">Daftar</button>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
+        <livewire:components.navbar/>
+    <!-- endnavbar -->
+
 
     <div class="max-w-6xl mx-auto px-4 py-8">
-        <a href="{{ route('landing') }}" class="inline-flex items-center text-gray-600 hover:text-primary mb-6">
+        <a href="{{ route('landing') }}" class="inline-flex items-center text-gray-50 hover:text-gray-400 mb-6">
             <i class="fas fa-arrow-left mr-2"></i> Kembali
         </a>
 
@@ -179,6 +167,10 @@
             </div>
         </div>
     </div>
+
+ <!-- Footer -->
+         <livewire:components.footer/>
+    <!-- endFooter -->
 
     <script>
         function downloadImage(url, title) {

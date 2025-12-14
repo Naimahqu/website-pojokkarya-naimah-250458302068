@@ -599,9 +599,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Brand -->
                 <div>
-                    <h3 class="text-accent text-xl font-bold mb-4">🎨 PojokKaarya</h3>
+                    <h3 class="text-accent text-xl font-bold mb-4">PojokKaarya</h3>
                     <p class="text-gray-400">
-                        Platform untuk para kreator berbagi karya, menemukan inspirasi, dan membangun komunitas kreatif Indonesia.
+                        Platform untuk para pengguna berbagi karya, menemukan inspirasi, dan membangun komunitas kreatif Indonesia.
                     </p>
                 </div>
 

@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Auth;
 
-use App\Livewire\Forms\LoginForm;
-use Illuminate\Support\Facades\Session;
 use Livewire\Component;
+use App\Livewire\Forms\LoginForm;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginModal extends Component
 {
@@ -36,7 +37,7 @@ class LoginModal extends Component
 
         $this->close();
 
-        if (auth()->user()->role === 'admin') {
+        if (Auth::user()->role === 'admin') {
             $this->redirect(route('admin.dashboard', absolute: false), navigate: true);
         } else {
             $this->redirect(route('landing', absolute: false), navigate: true);

@@ -2,16 +2,17 @@
 
 namespace App\Livewire\User;
 
+use App\Models\Like;
 use App\Models\Follow;
 use App\Models\Kreasi;
-use App\Models\Like;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
 {
     public function render()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         $totalKreasi = Kreasi::where('user_id', $user->id)->count();
 

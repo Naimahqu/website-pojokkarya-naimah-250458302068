@@ -10,7 +10,10 @@ use App\Livewire\User\Dashboard as UserDashboard;
 use App\Livewire\User\Profile as UserProfile;
 use App\Livewire\User\KreasiCreate;
 use App\Livewire\User\KreasiIndex;
+use App\Livewire\User\BookmarkIndex;
 use Illuminate\Support\Facades\Route;
+
+//ini untuk si admin
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', AdminDashboard::class)->name('dashboard');
@@ -19,11 +22,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::get('/kreasi', AdminKreasi::class)->name('kreasi');
 });
 
+//ini untuk dashboard user
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', UserDashboard::class)->name('dashboard');
     Route::get('/profile', UserProfile::class)->name('profile');
     Route::get('/kreasi', KreasiIndex::class)->name('kreasi.index');
     Route::get('/kreasi/create', KreasiCreate::class)->name('kreasi.create');
+    Route::get('/bookmarks', BookmarkIndex::class)->name('bookmarks');
 });
 
 Route::get('/', Landing::class)->name('landing');

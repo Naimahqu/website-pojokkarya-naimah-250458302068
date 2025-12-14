@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Profile extends Component
 {
@@ -12,7 +13,7 @@ class Profile extends Component
 
     public function mount(): void
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $this->name = $user->name;
         $this->kontak = $user->kontak ?? '';
         $this->deskripsi_profil = $user->deskripsi_profil ?? '';
@@ -26,7 +27,7 @@ class Profile extends Component
             'deskripsi_profil' => 'required|string|max:1000',
         ]);
 
-        auth()->user()->update($validated);
+        Auth::user()->update($validated);
 
         session()->flash('message', 'Profil berhasil diperbarui!');
     }

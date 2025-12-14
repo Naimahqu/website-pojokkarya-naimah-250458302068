@@ -2,10 +2,11 @@
 
 namespace App\Livewire\User;
 
-use App\Models\Kreasi;
 use App\Models\Tag;
+use App\Models\Kreasi;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
 
 class KreasiCreate extends Component
 {
@@ -32,7 +33,7 @@ class KreasiCreate extends Component
             'deskripsi' => $validated['deskripsi'],
             'foto' => $fotoPath,
             'tag_id' => $validated['tagId'],
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
         ]);
 
         session()->flash('message', 'Kreasi berhasil diunggah!');

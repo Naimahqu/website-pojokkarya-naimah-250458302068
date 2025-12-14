@@ -4,10 +4,7 @@
             <h1 class="text-2xl font-bold text-gray-800">Kelola Kreasi</h1>
             <p class="text-gray-600">Lihat dan kelola semua kreasi Anda</p>
         </div>
-        <a href="{{ route('kreasi.create') }}"
-           class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition flex items-center">
-            <i class="fas fa-plus mr-2"></i>Unggah Baru
-        </a>
+       
     </div>
 
     <!-- Flash Messages -->

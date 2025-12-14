@@ -1,4 +1,4 @@
-<div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+<div class="font-serif bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
     <a href="{{ route('kreasi.detail', $kreasi->id) }}" class="block">
         <div class="relative">
             <div class="w-full h-48 rounded-t-xl overflow-hidden">
@@ -11,7 +11,7 @@
     </a>
     <div class="p-4">
         <a href="{{ route('kreasi.detail', $kreasi->id) }}" class="block mb-2">
-            <h3 class="font-semibold text-gray-800 truncate">{{ $kreasi->judul }}</h3>
+            <h3 class="font-semibold text-gray-200 truncate">{{ $kreasi->judul }}</h3>
             <p class="text-sm text-gray-500 truncate">{{ Str::limit($kreasi->deskripsi, 50) }}</p>
         </a>
         <div class="flex justify-between items-center">
