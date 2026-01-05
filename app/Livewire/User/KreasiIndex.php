@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use App\Models\Kreasi;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -31,7 +32,7 @@ class KreasiIndex extends Component
 
     public function edit(int $kreasiId): void
     {
-        $kreasi = Kreasi::where('user_id', auth()->id())->findOrFail($kreasiId);
+        $kreasi = Kreasi::where('user_id', Auth::id())->findOrFail($kreasiId);
         $this->editingKreasiId = $kreasi->id;
         $this->judul = $kreasi->judul;
         $this->deskripsi = $kreasi->deskripsi;
@@ -54,7 +55,7 @@ class KreasiIndex extends Component
 
         $this->validate($rules);
 
-        $kreasi = Kreasi::where('user_id', auth()->id())->findOrFail($this->editingKreasiId);
+        $kreasi = Kreasi::where('user_id', Auth::id())->findOrFail($this->editingKreasiId);
 
         $fotoPath = $kreasi->foto;
         if ($this->foto) {
@@ -75,7 +76,7 @@ class KreasiIndex extends Component
 
     public function delete(int $kreasiId): void
     {
-        $kreasi = Kreasi::where('user_id', auth()->id())->findOrFail($kreasiId);
+        $kreasi = Kreasi::where('user_id', Auth::id())->findOrFail($kreasiId);
         Storage::disk('public')->delete($kreasi->foto);
         $kreasi->delete();
         session()->flash('message', 'Kreasi berhasil dihapus!');
@@ -90,7 +91,7 @@ class KreasiIndex extends Component
     public function render()
     {
         $kreasis = Kreasi::with('tag')
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->when($this->search, fn($q) => $q->where('judul', 'like', "%{$this->search}%"))
             ->orderBy('created_at', 'desc')
             ->paginate(9);
@@ -98,7 +99,6 @@ class KreasiIndex extends Component
         return view('livewire.user.kreasi-index', [
             'kreasis' => $kreasis,
             'tags' => Tag::all(),
-        ])->layout('layouts.user', ['title' => 'Kelola Kreasi']);
+        ]);
     }
 }
-

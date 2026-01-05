@@ -16,7 +16,7 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <p class="text-white/80 mt-2">Bergabung dengan komunitas kreator Indonesia!</p>
+                <p class="text-white/80 mt-2">Bergabung dengan kami!</p>
             </div>
 
             <!-- Modal Body -->
@@ -65,7 +65,7 @@
 
                 <!-- Deskripsi Profil -->
                 <div>
-                    <label class="block text-gray-700 font-medium mb-2">Deskripsi Profil</label>
+                    <label class="block text-gray-700 font-medium mb-2">Bio</label>
                     <div class="relative">
                         <span class="absolute left-3 top-3 text-gray-400">
                             <i class="fas fa-info-circle"></i>

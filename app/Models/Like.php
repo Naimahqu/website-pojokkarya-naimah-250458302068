@@ -6,10 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Like extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'kreasi_id',
-    ];
+    protected $fillable = ['user_id', 'kreasi_id'];
 
     public function user()
     {

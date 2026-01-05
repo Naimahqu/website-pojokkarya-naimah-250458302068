@@ -24,7 +24,7 @@
                         <h1 class="text-2xl font-bold text-gray-900 mb-4">{{ $kreasi->judul }}</h1>
                         <p class="text-gray-600 leading-relaxed">{{ $kreasi->deskripsi }}</p>
 
-                        <!-- Actions -->
+                        <!-- like -->
                         <div class="flex items-center justify-between mt-6 pt-6 border-t">
                             <div class="flex items-center space-x-4">
                                 <button wire:click="toggleLike"
@@ -39,6 +39,7 @@
                                     <i class="{{ $kreasi->isBookmarkedBy(auth()->id()) ? 'fas' : 'far' }} fa-bookmark"></i>
                                     <span>Simpan</span>
                                 </button>
+
                                 <!-- Download -->
                                 <button onclick="downloadImage('{{ Storage::url($kreasi->foto) }}', '{{ $kreasi->judul }}')"
                                     class="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition">
@@ -95,7 +96,7 @@
                                 <p class="text-gray-600 mt-1">{{ $comment->komentar }}</p>
                                 @if(auth()->id() === $comment->user_id)
                                 <button wire:click="deleteComment({{ $comment->id }})" wire:confirm="Hapus komentar ini?"
-                                    class="text-red-500 text-xs mt-2 hover:underline">Hapus</button>
+                                    class="text-red-500 text-xs mt-2 hover:underline"><i class="fas fa-trash"></i></button>
                                 @endif
                             </div>
                         </div>

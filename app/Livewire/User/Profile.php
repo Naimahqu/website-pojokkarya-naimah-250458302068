@@ -34,8 +34,7 @@ class Profile extends Component
 
     public function render()
     {
-        return view('livewire.user.profile')
-            ->layout('layouts.user', ['title' => 'Profil Saya']);
+        // ✅ Hapus ->layout()
+        return view('livewire.user.profile');
     }
 }
-

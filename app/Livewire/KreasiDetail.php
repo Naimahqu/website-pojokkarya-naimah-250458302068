@@ -40,7 +40,6 @@ class KreasiDetail extends Component
 
         $creatorId = $this->kreasi->user_id;
 
-        // g bisa follow
         if (Auth::id() === $creatorId) {
             return;
         }

@@ -132,7 +132,7 @@
 
                 <div class="w-full md:w-1/3">
                     <label for="tagFilter" class="block text-sm font-bold text-gray-900 mb-3 ml-1">
-                        Filter Berdasarkan Tag
+                        Filter karya
                     </label>
 
                     <div class="relative">
@@ -234,10 +234,5 @@
 
 
     <!-- Scripts -->
-    <script>
-        function toggleMobileNav() {
-            const nav = document.getElementById('mobileNav');
-            nav.classList.toggle('hidden');
-        }
-    </script>
+   
 </div>

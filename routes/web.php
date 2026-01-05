@@ -1,20 +1,21 @@
 <?php
 
 use App\Livewire\Landing;
+use App\Livewire\User\Likes;
 use App\Livewire\KreasiDetail;
-use App\Livewire\Admin\Dashboard as AdminDashboard;
-use App\Livewire\Admin\Users as AdminUsers;
-use App\Livewire\Admin\Tags as AdminTags;
-use App\Livewire\Admin\Kreasi as AdminKreasi;
-use App\Livewire\User\Dashboard as UserDashboard;
-use App\Livewire\User\Profile as UserProfile;
-use App\Livewire\User\KreasiCreate;
+use App\Livewire\User\Followers;
 use App\Livewire\User\KreasiIndex;
+use App\Livewire\User\KreasiCreate;
 use App\Livewire\User\BookmarkIndex;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Admin\Tags as AdminTags;
+use App\Livewire\Admin\Users as AdminUsers;
+use App\Livewire\Admin\Kreasi as AdminKreasi;
+use App\Livewire\User\Profile as UserProfile;
+use App\Livewire\User\Dashboard as UserDashboard;
+use App\Livewire\Admin\Dashboard as AdminDashboard;
 
 //ini untuk si admin
-
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', AdminDashboard::class)->name('dashboard');
     Route::get('/users', AdminUsers::class)->name('users');
@@ -24,11 +25,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 
 //ini untuk dashboard user
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', UserDashboard::class)->name('dashboard');
     Route::get('/profile', UserProfile::class)->name('profile');
     Route::get('/kreasi', KreasiIndex::class)->name('kreasi.index');
     Route::get('/kreasi/create', KreasiCreate::class)->name('kreasi.create');
     Route::get('/bookmarks', BookmarkIndex::class)->name('bookmarks');
+    Route::get('/likes', Likes::class)->name('likes');
+    Route::get('/followers', Followers::class)->name('followers');
 });
 
 Route::get('/', Landing::class)->name('landing');

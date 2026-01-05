@@ -10,6 +10,7 @@ class Follow extends Model
         'follower_id',
         'followed_id',
     ];
+    
 
     public function follower()
     {

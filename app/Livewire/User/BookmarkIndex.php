@@ -19,38 +19,30 @@ class BookmarkIndex extends Component
         $this->resetPage();
     }
 
-
     public function toggleBookmark(int $kreasiId): void
     {
-        // Cari dan hapus bookmark untuk pengguna saat ini dan ID kreasi yang diberikan
         $bookmark = Bookmark::where('user_id', Auth::id())
-                            ->where('kreasi_id', $kreasiId)
-                            ->first();
+            ->where('kreasi_id', $kreasiId)
+            ->first();
 
         if ($bookmark) {
             $bookmark->delete();
             session()->flash('success', 'Kreasi berhasil dihapus dari bookmark Anda.');
         }
-
-        // Livewire secara otomatis akan me-render ulang dan menghilangkan kartu yang dihapus.
     }
-
 
     public function toggleLike(int $kreasiId): void
     {
         $userId = Auth::id();
 
-        // Cari like yang sudah ada
         $existingLike = Like::where('user_id', $userId)
-                            ->where('kreasi_id', $kreasiId)
-                            ->first();
+            ->where('kreasi_id', $kreasiId)
+            ->first();
 
         if ($existingLike) {
-            // Unlike: Hapus like yang sudah ada
             $existingLike->delete();
             session()->flash('info', 'Like dihapus.');
         } else {
-            // Like: Buat like baru
             Like::create([
                 'user_id' => $userId,
                 'kreasi_id' => $kreasiId,
@@ -61,16 +53,14 @@ class BookmarkIndex extends Component
 
     public function render()
     {
-        // Query untuk mengambil bookmark yang terhubung ke kreasi yang valid
         $bookmarks = Bookmark::with([
-                'kreasi.tag', 
+                'kreasi.tag',
                 'kreasi.user',
-                'kreasi.likes',      // Eager load likes
-                'kreasi.comments'    // Eager load comments
+                'kreasi.likes',
+                'kreasi.comments'
             ])
             ->where('user_id', Auth::id())
             ->whereHas('kreasi', function ($query) {
-                // Asumsi: Hanya tampilkan kreasi yang aktif dan terapkan pencarian
                 if ($this->search) {
                     $query->where('judul', 'like', "%{$this->search}%");
                 }
@@ -78,12 +68,10 @@ class BookmarkIndex extends Component
             ->orderBy('created_at', 'desc')
             ->paginate(9);
 
-        // Reset pagination jika halaman saat ini kosong setelah pencarian/penghapusan
-        if ($bookmarks->isEmpty() && $this->page > 1) {
+        if ($bookmarks->isEmpty() && $bookmarks->currentPage() > 1) {
             $this->resetPage();
         }
 
-        // Tambahkan informasi apakah user sudah like setiap kreasi
         $bookmarks->getCollection()->transform(function ($bookmark) {
             if ($bookmark->kreasi) {
                 $bookmark->kreasi->likes_count = $bookmark->kreasi->likes->count();
@@ -97,6 +85,6 @@ class BookmarkIndex extends Component
 
         return view('livewire.user.bookmark-index', [
             'bookmarks' => $bookmarks,
-        ])->layout('layouts.user', ['title' => 'Bookmarks']);
+        ]);
     }
 }

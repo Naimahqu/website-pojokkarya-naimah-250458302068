@@ -44,7 +44,6 @@ class KreasiCreate extends Component
     {
         return view('livewire.user.kreasi-create', [
             'tags' => Tag::all(),
-        ])->layout('layouts.user', ['title' => 'Unggah Kreasi']);
+        ]);
     }
 }
-

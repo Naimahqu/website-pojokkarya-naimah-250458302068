@@ -1,4 +1,4 @@
-<div class="p-6">
+<div id="bookmarks" class="p-6">
     <h2 class="text-3xl font-extrabold mb-8 text-gray-900 border-b pb-4"> <strong>💕Kreasi Tersimpan</strong></h2>
 
     @if(session('success'))
