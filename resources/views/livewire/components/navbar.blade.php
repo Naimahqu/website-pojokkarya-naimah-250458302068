@@ -42,50 +42,23 @@
                                      class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50">
                                     
                                     <!-- Header Dropdown dengan Avatar dan Info User -->
-                                    <div class="px-4 py-3 border-b border-gray-200">
+                                    <a href="{{ route('profile') }}" class="block px-4 py-3 border-b border-gray-200 hover:bg-gray-50 transition duration-150">
                                         <div class="flex items-center space-x-3">
                                             <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow">
                                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                             </div>
-                                            <div>
+                                            <div class="text-left">
                                                 <p class="text-sm font-semibold text-gray-800">{{ auth()->user()->name }}</p>
                                                 <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
 
                                     <!-- Menu Items -->
-                                   
-                                    <a href="{{ route('kreasi.index') }}" 
-                                       class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                        <i class="fas fa-images mr-3 text-gray-600"></i>
-                                        Kreasi Saya
-                                    </a>
-                                    
-                                    <a href="{{ route('bookmarks') }}" 
-                                       class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                        <i class="fas fa-bookmark mr-3 text-gray-600"></i>
-                                        Bookmark
-                                    </a>
-
-                                    <!-- ✨ MENU BARU: LIKES -->
-                                    <a href="{{ route('likes') }}" 
-                                       class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                        <i class="fas fa-heart mr-3 text-red-500"></i>
-                                        Likes
-                                    </a>
-
-                                    <!-- ✨ MENU BARU: FOLLOWERS -->
-                                    <a href="{{ route('followers') }}" 
-                                       class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                        <i class="fas fa-users mr-3 text-purple-600"></i>
-                                        Pengikut
-                                    </a>
-                                    
                                     <a href="{{ route('profile') }}" 
-                                       class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                        <i class="fas fa-user-edit mr-3 text-gray-600"></i>
-                                        Edit Profile
+                                       class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100 transition">
+                                        <i class="fas fa-user mr-3 text-gray-600"></i>
+                                        Profile
                                     </a>
                                     
                                     <hr class="my-2">
@@ -135,24 +108,17 @@
                     @else
                         <div class="border-t border-gray-700 pt-2 mt-2">
                             <!-- User Info di Mobile -->
-                            <div class="flex items-center space-x-3 px-2 mb-3">
+                            <a href="{{ route('profile') }}" class="flex items-center space-x-3 px-2 mb-3 block">
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow">
                                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                 </div>
-                                <div>
+                                <div class="text-left">
                                     <p class="text-white text-sm font-semibold">{{ auth()->user()->name }}</p>
                                     <p class="text-gray-400 text-xs">{{ auth()->user()->email }}</p>
                                 </div>
-                            </div>
+                            </a>
                             
-                            <a href="{{ route('kreasi.index') }}" class="text-white hover:text-gray-300 block py-1">Kreasi Saya</a>
-                            <a href="{{ route('bookmarks') }}" class="text-white hover:text-gray-300 block py-1">Bookmark</a>
-                            
-                            <!-- ✨ MENU MOBILE: LIKES & FOLLOWERS -->
-                            <a href="{{ route('likes') }}" class="text-white hover:text-gray-300 block py-1">Likes</a>
-                            <a href="{{ route('followers') }}" class="text-white hover:text-gray-300 block py-1">Pengikut</a>
-                            
-                            <a href="{{ route('profile') }}" class="text-white hover:text-gray-300 block py-1">Edit Profile</a>
+                            <a href="{{ route('profile') }}" class="text-white hover:text-gray-300 block py-1">Profile</a>
                             <form method="POST" action="{{ route('logout') }}" class="mt-2">
                                 @csrf
                                 <button type="submit" class="text-red-400 hover:text-red-300 block py-1 w-full text-left">

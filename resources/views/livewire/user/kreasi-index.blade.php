@@ -1,96 +1,111 @@
-<div class="container mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-800">Kelola Kreasi</h1>
-            <p class="text-gray-600 mt-1">Lihat dan kelola semua kreasi Anda</p>
+<div class="space-y-6">
+    <!-- Header Controls -->
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+        <!-- Search bar -->
+        <div class="relative w-full sm:max-w-xs shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400 text-sm"></i>
+            </div>
+            <input type="text" 
+                   wire:model.live.debounce.300ms="search" 
+                   placeholder="Cari kreasi..."
+                   class="block w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition duration-150">
         </div>
-        
+
+        <!-- Add Creation Button -->
+        @if(auth()->check() && auth()->id() === $userId)
         <a href="{{ route('kreasi.create') }}" 
-           class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
-            <i class="fas fa-plus mr-2"></i>
+           class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition duration-150 shadow-sm">
+            <i class="fas fa-plus mr-2 text-xs"></i>
             Buat Kreasi Baru
         </a>
+        @endif
     </div>
 
     @if (session()->has('message'))
-        <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg flex items-center">
-            <i class="fas fa-check-circle text-green-500 text-xl mr-3"></i>
-            <span class="text-green-700 font-medium">{{ session('message') }}</span>
+        <div class="p-4 bg-green-50 border-l-4 border-green-500 rounded-lg flex items-center text-green-700 text-sm font-medium">
+            <i class="fas fa-check-circle mr-2 text-green-500 text-base"></i>
+            {{ session('message') }}
         </div>
     @endif
 
-    <div class="mb-8">
-        <div class="relative max-w-md">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                <i class="fas fa-search"></i>
-            </span>
-            <input type="text" 
-                   wire:model.live.debounce.300ms="search" 
-                   placeholder="Cari kreasi berdasarkan judul..."
-                   class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-        </div>
-    </div>
-
+    <!-- Home-Page Aligned Card Grid -->
     @if($kreasis->count() > 0)
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($kreasis as $kreasi)
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                    <div class="relative overflow-hidden">
-                        <img src="{{ Storage::url($kreasi->foto) }}" 
-                             alt="{{ $kreasi->judul }}"
-                             class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-300">
-                        
-                        <span class="absolute top-3 left-3 px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-semibold shadow-md">
-                            {{ $kreasi->tag->nama_tag }}
-                        </span>
-                    </div>
-
-                    <div class="p-5">
-                        <h3 class="font-bold text-gray-800 text-lg mb-2 line-clamp-1">
-                            {{ $kreasi->judul }}
-                        </h3>
-                        <p class="text-sm text-gray-600 mb-3 line-clamp-2">
-                            {{ $kreasi->deskripsi }}
-                        </p>
-                        
-                        <div class="flex items-center text-xs text-gray-500 mb-4">
-                            <i class="far fa-calendar mr-2"></i>
-                            {{ $kreasi->created_at->format('d M Y') }}
+                <div class="font-serif bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col justify-between h-full overflow-hidden">
+                    <div>
+                        <!-- Thumbnail Image -->
+                        <div class="relative">
+                            <div class="w-full h-48 bg-gray-950 overflow-hidden">
+                                <img src="{{ Storage::url($kreasi->foto) }}" alt="{{ $kreasi->judul }}" class="w-full h-full object-cover">
+                            </div>
+                            <span class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-primary">
+                                {{ $kreasi->tag->nama_tag ?? 'Uncategorized' }}
+                            </span>
                         </div>
-
-                        <div class="flex gap-2">
-                            <button wire:click="edit({{ $kreasi->id }})"
-                                    class="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-blue-50 text-blue-600 rounded-lg text-sm font-semibold hover:bg-blue-100 transition">
-                                <i class="fas fa-edit mr-2"></i>
-                                Edit
-                            </button>
-                            <button wire:click="delete({{ $kreasi->id }})"
-                                    wire:confirm="Yakin ingin menghapus kreasi ini?"
-                                    class="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-red-50 text-red-600 rounded-lg text-sm font-semibold hover:bg-red-100 transition">
-                                <i class="fas fa-trash mr-2"></i>
-                                Hapus
-                            </button>
+                        
+                        <!-- Content -->
+                        <div class="p-4">
+                            <div class="block mb-2">
+                                <h3 class="font-semibold text-gray-200 truncate">{{ $kreasi->judul }}</h3>
+                                <p class="text-sm text-gray-500 truncate">{{ Str::limit($kreasi->deskripsi, 50) }}</p>
+                            </div>
+                            
+                            <div class="flex justify-between items-center text-gray-400 text-xs mt-3 pt-3 border-t border-gray-800">
+                                <span class="flex items-center">
+                                    <i class="far fa-heart mr-1.5 text-red-500"></i>
+                                    {{ $kreasi->likes()->count() }} likes
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="far fa-calendar mr-1.5"></i>
+                                    {{ $kreasi->created_at->format('d/m/Y') }}
+                                </span>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Owner Action buttons -->
+                    @if(auth()->check() && auth()->id() === $userId)
+                    <div class="p-4 pt-0 flex gap-2">
+                        <button wire:click="edit({{ $kreasi->id }})"
+                                class="flex-1 inline-flex items-center justify-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition duration-150 shadow-sm">
+                            <i class="fas fa-edit mr-1.5 text-[10px]"></i>
+                            Edit
+                        </button>
+                        <button wire:click="delete({{ $kreasi->id }})"
+                                wire:confirm="Yakin ingin menghapus kreasi ini?"
+                                class="flex-1 inline-flex items-center justify-center px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-semibold transition duration-150 shadow-sm">
+                            <i class="fas fa-trash mr-1.5 text-[10px]"></i>
+                            Hapus
+                        </button>
+                    </div>
+                    @endif
                 </div>
             @endforeach
         </div>
 
-        <div class="mt-8">
+        <!-- Pagination -->
+        <div class="pt-6">
             {{ $kreasis->links() }}
         </div>
     @else
-        <div class="bg-white rounded-xl shadow-md p-12 text-center">
-            <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                <i class="fas fa-images text-4xl text-gray-400"></i>
+        <!-- Empty State -->
+        <div class="bg-white rounded-xl border border-gray-200 p-12 text-center max-w-md mx-auto shadow-sm">
+            <div class="w-16 h-16 mx-auto mb-4 bg-gray-50 rounded-full flex items-center justify-center">
+                <i class="fas fa-images text-2xl text-gray-400"></i>
             </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Belum Ada Kreasi</h3>
-            <p class="text-gray-600 mb-6">Mulai unggah kreasi pertamamu dan bagikan karya terbaikmu!</p>
+            <h3 class="text-lg font-bold text-gray-800 mb-1">Belum Ada Kreasi</h3>
+            <p class="text-gray-500 text-sm mb-6">
+                {{ auth()->check() && auth()->id() === $userId ? 'Mulai unggah kreasi pertamamu dan bagikan karya terbaikmu!' : 'Kreator belum mengunggah karya apapun.' }}
+            </p>
+            @if(auth()->check() && auth()->id() === $userId)
             <a href="{{ route('kreasi.create') }}"
-               class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition shadow-md hover:shadow-lg">
-                <i class="fas fa-plus mr-2"></i>
+               class="inline-flex items-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow transition-all">
+                <i class="fas fa-plus mr-2 text-xs"></i>
                 Buat Kreasi Pertama
             </a>
+            @endif
         </div>
     @endif
 

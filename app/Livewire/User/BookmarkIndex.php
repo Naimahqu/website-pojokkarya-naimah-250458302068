@@ -13,6 +13,12 @@ class BookmarkIndex extends Component
     use WithPagination;
 
     public string $search = '';
+    public ?int $userId = null;
+
+    public function mount(?int $userId = null): void
+    {
+        $this->userId = $userId ?? Auth::id();
+    }
 
     public function updatingSearch(): void
     {
@@ -59,14 +65,14 @@ class BookmarkIndex extends Component
                 'kreasi.likes',
                 'kreasi.comments'
             ])
-            ->where('user_id', Auth::id())
+            ->where('user_id', $this->userId)
             ->whereHas('kreasi', function ($query) {
                 if ($this->search) {
                     $query->where('judul', 'like', "%{$this->search}%");
                 }
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(9);
+            ->paginate(12);
 
         if ($bookmarks->isEmpty() && $bookmarks->currentPage() > 1) {
             $this->resetPage();

@@ -85,12 +85,16 @@
                     <div class="space-y-4">
                         @forelse($kreasi->comments as $comment)
                         <div class="flex space-x-3 p-4 bg-gray-50 rounded-lg">
-                            <div class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                                {{ strtoupper(substr($comment->user->name, 0, 2)) }}
-                            </div>
+                            <a href="{{ route('profile', $comment->user_id) }}" class="flex-shrink-0 hover:opacity-80 transition duration-150">
+                                <div class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                                    {{ strtoupper(substr($comment->user->name, 0, 2)) }}
+                                </div>
+                            </a>
                             <div class="flex-1">
                                 <div class="flex items-center justify-between">
-                                    <span class="font-medium text-gray-800">{{ $comment->user->name }}</span>
+                                    <a href="{{ route('profile', $comment->user_id) }}" class="font-medium text-gray-800 hover:text-blue-600 transition hover:underline">
+                                        {{ $comment->user->name }}
+                                    </a>
                                     <span class="text-xs text-gray-500">{{ $comment->created_at->diffForHumans() }}</span>
                                 </div>
                                 <p class="text-gray-600 mt-1">{{ $comment->komentar }}</p>
@@ -112,15 +116,15 @@
                 <!-- Creator Info -->
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
                     <h3 class="text-lg font-semibold mb-4">Kreator</h3>
-                    <div class="flex items-center space-x-3">
+                    <a href="{{ route('profile', $kreasi->user_id) }}" class="flex items-center space-x-3 hover:opacity-85 transition block group">
                         <div class="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold">
                             {{ strtoupper(substr($kreasi->user->name ?? 'U', 0, 2)) }}
                         </div>
                         <div>
-                            <p class="font-medium text-gray-800">{{ $kreasi->user->name ?? 'Unknown' }}</p>
+                            <p class="font-medium text-gray-800 group-hover:text-blue-600 transition">{{ $kreasi->user->name ?? 'Unknown' }}</p>
                             <p class="text-sm text-gray-500">{{ $kreasi->user->deskripsi_profil ?? '' }}</p>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="mt-4 pt-4 border-t space-y-3">
                         <!-- Follow Button -->

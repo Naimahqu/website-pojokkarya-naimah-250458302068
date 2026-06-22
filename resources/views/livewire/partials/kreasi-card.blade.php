@@ -15,12 +15,12 @@
             <p class="text-sm text-gray-500 truncate">{{ Str::limit($kreasi->deskripsi, 50) }}</p>
         </a>
         <div class="flex justify-between items-center">
-            <div class="flex items-center space-x-2">
+            <a href="{{ route('profile', $kreasi->user_id) }}" class="flex items-center space-x-2 hover:opacity-80 transition duration-150">
                 <div class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white text-xs font-bold">
                     {{ strtoupper(substr($kreasi->user->name ?? 'U', 0, 2)) }}
                 </div>
-                <span class="text-xs text-gray-500">{{ $kreasi->user->name ?? 'Unknown' }}</span>
-            </div>
+                <span class="text-xs text-gray-500 hover:underline">{{ $kreasi->user->name ?? 'Unknown' }}</span>
+            </a>
             <div class="flex space-x-2">
                 <button wire:click.stop="toggleLike({{ $kreasi->id }})"
                     class="text-gray-400 hover:text-red-500 transition {{ auth()->check() && $kreasi->isLikedBy(auth()->id()) ? 'text-red-500' : '' }}">

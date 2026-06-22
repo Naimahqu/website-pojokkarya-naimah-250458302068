@@ -23,14 +23,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::get('/kreasi', AdminKreasi::class)->name('kreasi');
 });
 
+Route::get('/profile/{user?}', UserProfile::class)->name('profile');
+
 //ini untuk dashboard user
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', UserProfile::class)->name('profile');
-    Route::get('/kreasi', KreasiIndex::class)->name('kreasi.index');
+    Route::get('/kreasi', UserProfile::class)->name('kreasi.index');
     Route::get('/kreasi/create', KreasiCreate::class)->name('kreasi.create');
-    Route::get('/bookmarks', BookmarkIndex::class)->name('bookmarks');
-    Route::get('/likes', Likes::class)->name('likes');
-    Route::get('/followers', Followers::class)->name('followers');
+    Route::get('/bookmarks', UserProfile::class)->name('bookmarks');
+    Route::get('/likes', UserProfile::class)->name('likes');
+    Route::get('/followers', UserProfile::class)->name('followers');
 });
 
 Route::get('/', Landing::class)->name('landing');

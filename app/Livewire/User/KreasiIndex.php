@@ -15,6 +15,7 @@ class KreasiIndex extends Component
     use WithPagination, WithFileUploads;
 
     public string $search = '';
+    public ?int $userId = null;
 
     // Edit modal
     public bool $showModal = false;
@@ -25,6 +26,11 @@ class KreasiIndex extends Component
     public ?string $fotoPreview = null;
     public string $tagId = '';
 
+    public function mount(?int $userId = null): void
+    {
+        $this->userId = $userId ?? Auth::id();
+    }
+
     public function updatingSearch(): void
     {
         $this->resetPage();
@@ -32,7 +38,12 @@ class KreasiIndex extends Component
 
     public function edit(int $kreasiId): void
     {
-        $kreasi = Kreasi::where('user_id', Auth::id())->findOrFail($kreasiId);
+        // Safety check: only creator can edit
+        if (Auth::id() !== $this->userId) {
+            return;
+        }
+
+        $kreasi = Kreasi::where('user_id', $this->userId)->findOrFail($kreasiId);
         $this->editingKreasiId = $kreasi->id;
         $this->judul = $kreasi->judul;
         $this->deskripsi = $kreasi->deskripsi;
@@ -43,6 +54,10 @@ class KreasiIndex extends Component
 
     public function save(): void
     {
+        if (Auth::id() !== $this->userId) {
+            return;
+        }
+
         $rules = [
             'judul' => 'required|min:3|max:255',
             'deskripsi' => 'required|min:10',
@@ -55,7 +70,7 @@ class KreasiIndex extends Component
 
         $this->validate($rules);
 
-        $kreasi = Kreasi::where('user_id', Auth::id())->findOrFail($this->editingKreasiId);
+        $kreasi = Kreasi::where('user_id', $this->userId)->findOrFail($this->editingKreasiId);
 
         $fotoPath = $kreasi->foto;
         if ($this->foto) {
@@ -76,7 +91,11 @@ class KreasiIndex extends Component
 
     public function delete(int $kreasiId): void
     {
-        $kreasi = Kreasi::where('user_id', Auth::id())->findOrFail($kreasiId);
+        if (Auth::id() !== $this->userId) {
+            return;
+        }
+
+        $kreasi = Kreasi::where('user_id', $this->userId)->findOrFail($kreasiId);
         Storage::disk('public')->delete($kreasi->foto);
         $kreasi->delete();
         session()->flash('message', 'Kreasi berhasil dihapus!');
@@ -91,10 +110,10 @@ class KreasiIndex extends Component
     public function render()
     {
         $kreasis = Kreasi::with('tag')
-            ->where('user_id', Auth::id())
+            ->where('user_id', $this->userId)
             ->when($this->search, fn($q) => $q->where('judul', 'like', "%{$this->search}%"))
             ->orderBy('created_at', 'desc')
-            ->paginate(9);
+            ->paginate(12); // changed to 12 as per home design layout columns
 
         return view('livewire.user.kreasi-index', [
             'kreasis' => $kreasis,
